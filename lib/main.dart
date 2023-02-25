@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_tasks_app/screens/counter/counter_screen.dart';
 import 'package:flutter_tasks_app/services/app_router.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'blocs/bloc_exports.dart';
-import 'screens/tasks_screen/tasks_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,8 +13,10 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  runApp(MyApp(
-    appRouter: AppRouter(),
+  runApp(Phoenix(
+    child: MyApp(
+      appRouter: AppRouter(),
+    ),
   ));
 }
 
@@ -29,22 +32,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<CounterBloc>(
-          create: (context) => CounterBloc(),
-        ),
-        BlocProvider<TasksBloc>(
-          create: (context) => TasksBloc(),
-        ),
+        BlocProvider<CounterBloc>(create: (context) => CounterBloc()),
+        BlocProvider<TasksBloc>(create: (context) => TasksBloc()),
+        BlocProvider<UseDarkThemeBloc>(create: (context) => UseDarkThemeBloc()),
+        BlocProvider<UseMaterialThreeBloc>(create: (context) => UseMaterialThreeBloc()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Tasks App',
-        theme: ThemeData(
-          useMaterial3: true,
-          primarySwatch: Colors.teal,
-        ),
-        onGenerateRoute: _appRouter.onGenerateRoute,
-        home: const TasksScreen(),
+      child: BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
+        builder: (context, useMaterialThreeState) {
+          return BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
+            builder: (context, useDarkThemeState) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Flutter Tasks App',
+                theme: ThemeData(
+                  useMaterial3: useMaterialThreeState.useMaterialThree,
+                  brightness: useDarkThemeState.useDarkTheme ? Brightness.dark : Brightness.light,
+                  primarySwatch: Colors.teal,
+                ),
+                onGenerateRoute: _appRouter.onGenerateRoute,
+                initialRoute: CounterScreen.routeName,
+              );
+            },
+          );
+        },
       ),
     );
   }

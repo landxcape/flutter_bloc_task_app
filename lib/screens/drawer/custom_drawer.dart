@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_tasks_app/screens/counter/counter_screen.dart';
 import 'package:flutter_tasks_app/screens/recycle_bin/recycle_bin_screen.dart';
 import 'package:flutter_tasks_app/screens/tasks_screen/tasks_screen.dart';
@@ -10,7 +11,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool switchValue = false;
+
     return SafeArea(
       child: Drawer(
         child: Column(
@@ -51,13 +52,30 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             const Divider(),
-            StatefulBuilder(
-              builder: (context, setState) {
-                return Switch(
-                  value: switchValue,
-                  onChanged: (newValue) => setState(() => switchValue = newValue),
+            BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
+              builder: (context, state) {
+                return ListTile(
+                  title: Text('Material ${state.useMaterialThree ? '3' : '2'} '),
+                  trailing: Switch(
+                    value: state.useMaterialThree,
+                    onChanged: (newValue) {
+                      context.read<UseMaterialThreeBloc>().add(newValue ? UseMaterialThreeTrueEvent() : UseMaterialThreeFalseEvent());
+                      Phoenix.rebirth(context);
+                    },
+                  ),
                 );
-              }
+              },
+            ),
+            BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
+              builder: (context, state) {
+                return ListTile(
+                  title: Text('Switch to ${state.useDarkTheme ? 'Light' : 'Dark'} Theme'),
+                  trailing: Switch(
+                    value: state.useDarkTheme,
+                    onChanged: (newValue) => context.read<UseDarkThemeBloc>().add(newValue ? UseDarkThemeOnEvent() : UseDarkThemeOffEvent()),
+                  ),
+                );
+              },
             ),
           ],
         ),

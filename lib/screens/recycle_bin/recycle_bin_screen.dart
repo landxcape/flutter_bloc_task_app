@@ -13,12 +13,6 @@ class RecycleBinScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Recycle Bin'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.add),
-          )
-        ],
       ),
       drawer: const CustomDrawer(),
       body: BlocBuilder<TasksBloc, TasksState>(

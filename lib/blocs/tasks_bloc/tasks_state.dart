@@ -2,8 +2,8 @@ part of 'tasks_bloc.dart';
 
 class TasksState extends Equatable {
   const TasksState({
-    this.allTasks = const <Task>[],
-    this.removedTasks = const <Task>[],
+    required this.allTasks,
+    required this.removedTasks,
   });
 
   final List<Task> allTasks;
@@ -25,15 +25,22 @@ class TasksState extends Equatable {
   factory TasksState.fromMap(Map<String, dynamic> map) {
     return TasksState(
       allTasks: List<Task>.from(
-        (map['allTasks'] as List<int>).map<Task>(
+        (map['allTasks'] as List).map<Task>(
           (x) => Task.fromMap(x as Map<String, dynamic>),
         ),
       ),
       removedTasks: List<Task>.from(
-        (map['removedTasks'] as List<int>).map<Task>(
+        (map['removedTasks'] as List).map<Task>(
           (x) => Task.fromMap(x as Map<String, dynamic>),
         ),
       ),
     );
   }
+}
+
+class TasksInitials extends TasksState {
+  const TasksInitials({
+    super.allTasks = const <Task>[],
+    super.removedTasks = const <Task>[],
+  });
 }

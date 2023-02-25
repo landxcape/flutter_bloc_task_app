@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks_app/screens/drawer/custom_drawer.dart';
 
 import '../../blocs/bloc_exports.dart';
 
@@ -12,6 +13,7 @@ class CounterScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Counter'),
       ),
+      drawer: const CustomDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

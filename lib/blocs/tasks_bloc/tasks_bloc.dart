@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 
@@ -10,7 +9,7 @@ part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
-  TasksBloc() : super(const TasksState()) {
+  TasksBloc() : super(const TasksInitials()) {
     on<AddTask>(_onAddTask);
     on<ToggleTask>(_onToggleTask);
     on<RemoveTask>(_onRemoveTask);
@@ -75,8 +74,6 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
 
   @override
   Map<String, dynamic>? toJson(TasksState state) {
-    final mappedTasks = state.toMap();
-    log(mappedTasks.toString());
-    return mappedTasks;
+    return state.toMap();
   }
 }
