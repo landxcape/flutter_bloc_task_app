@@ -26,10 +26,14 @@ class CounterInitial extends CounterState {
   const CounterInitial() : super(counterValue: 0);
 }
 
-class IncrementState extends CounterState {
-  const IncrementState(int incrementValue) : super(counterValue: incrementValue);
+class CounterResetState extends CounterState {
+  const CounterResetState({super.counterValue = 0});
 }
 
-class DecrementState extends CounterState {
-  const DecrementState(int decrementValue) : super(counterValue: decrementValue);
+class CounterIncrementState extends CounterState {
+  const CounterIncrementState(int incrementValue) : super(counterValue: incrementValue);
+}
+
+class CounterDecrementState extends CounterState {
+  const CounterDecrementState(int decrementValue) : super(counterValue: decrementValue);
 }

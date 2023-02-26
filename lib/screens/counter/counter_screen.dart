@@ -19,20 +19,37 @@ class CounterScreen extends StatelessWidget {
         children: [
           BlocConsumer<CounterBloc, CounterState>(
             listener: (context, state) {
-              if (state is IncrementState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Incremented to ${state.counterValue}'),
-                    duration: const Duration(milliseconds: 300),
-                  ),
-                );
-              } else if (state is DecrementState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Decremented to ${state.counterValue}'),
-                    duration: const Duration(milliseconds: 300),
-                  ),
-                );
+              switch (state.runtimeType) {
+                case CounterResetState:
+                  ScaffoldMessenger.of(context)
+                    ..clearSnackBars()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text('Counter Reset'),
+                        duration: Duration(milliseconds: 500),
+                      ),
+                    );
+                  break;
+                case CounterIncrementState:
+                  ScaffoldMessenger.of(context)
+                    ..clearSnackBars()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('Incremented to ${state.counterValue}'),
+                        duration: const Duration(milliseconds: 500),
+                      ),
+                    );
+                  break;
+                case CounterDecrementState:
+                  ScaffoldMessenger.of(context)
+                    ..clearSnackBars()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text('Decremented to ${state.counterValue}'),
+                        duration: const Duration(milliseconds: 500),
+                      ),
+                    );
+                  break;
               }
             },
             builder: (context, state) {
@@ -44,11 +61,15 @@ class CounterScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20.0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () => context.read<CounterBloc>().add(CounterDecrementEvent()),
                 child: const Icon(Icons.exposure_minus_1),
+              ),
+              IconButton(
+                onPressed: () => context.read<CounterBloc>().add(CounterResetEvent()),
+                icon: const Icon(Icons.restore),
               ),
               ElevatedButton(
                 onPressed: () => context.read<CounterBloc>().add(CounterIncrementEvent()),

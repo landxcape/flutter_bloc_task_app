@@ -2,17 +2,19 @@ import 'package:equatable/equatable.dart';
 
 import '../bloc_exports.dart';
 
-
 part 'counter_event.dart';
 part 'counter_state.dart';
 
 class CounterBloc extends HydratedBloc<CounterEvent, CounterState> {
   CounterBloc() : super(const CounterInitial()) {
+    on<CounterResetEvent>((event, emit) {
+      emit(const CounterResetState());
+    });
     on<CounterIncrementEvent>((event, emit) {
-      emit(IncrementState(state.counterValue + 1));
+      emit(CounterIncrementState(state.counterValue + 1));
     });
     on<CounterDecrementEvent>((event, emit) {
-      emit(DecrementState(state.counterValue - 1));
+      emit(CounterDecrementState(state.counterValue - 1));
     });
   }
 
