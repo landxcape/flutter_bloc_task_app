@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>220907967013-fd1msh5i6l5ro1n9c789hmba5b3ld7an.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.220907967013-fd1msh5i6l5ro1n9c789hmba5b3ld7an</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBtyhSDzc2ESj6sKhfa0pDlkovkJTzPjiw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>220907967013</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterBlocTasksApp</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-tasks-app-1d0f6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-tasks-app-1d0f6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:220907967013:ios:047ec7178518ef1a9365cc</string>
+</dict>
+</plist>
