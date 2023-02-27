@@ -13,6 +13,10 @@ class UseDarkThemeBloc extends HydratedBloc<UseDarkThemeEvent, UseDarkThemeState
     on<UseDarkThemeOffEvent>((event, emit) {
       emit(const UseDarkThemeState(useDarkTheme: false));
     });
+    on<UseDarkThemeToggleEvent>((event, emit) {
+      emit(UseDarkThemeState(useDarkTheme: !state.useDarkTheme));
+    });
+    
   }
 
   @override

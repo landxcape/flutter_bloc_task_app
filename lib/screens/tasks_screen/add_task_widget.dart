@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tasks_app/screens/app.dart';
 
 import '../../blocs/bloc_exports.dart';
 import '../../models/task.dart';
@@ -34,7 +35,8 @@ class AddTaskWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             final task = Task(title: _textEditingController.text);
-            context.read<TasksBloc>().add(AddTask(task: task));
+            // use bloc without context
+            tasksBloc.add(AddTask(task: task));
             Navigator.of(context).pop();
           },
           child: const Text('Add'),

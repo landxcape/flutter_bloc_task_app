@@ -16,6 +16,8 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<DeleteTask>(_onDeleteTask);
   }
 
+ 
+
   FutureOr<void> _onAddTask(
     AddTask event,
     Emitter<TasksState> emit,

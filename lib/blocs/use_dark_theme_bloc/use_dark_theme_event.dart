@@ -10,3 +10,5 @@ abstract class UseDarkThemeEvent extends Equatable {
 class UseDarkThemeOnEvent extends UseDarkThemeEvent {}
 
 class UseDarkThemeOffEvent extends UseDarkThemeEvent {}
+
+class UseDarkThemeToggleEvent extends UseDarkThemeEvent {}

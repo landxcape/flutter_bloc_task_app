@@ -19,64 +19,80 @@ class CustomDrawer extends StatelessWidget {
             const DrawerHeader(
               child: Text('Tasks Drawer'),
             ),
-            BlocBuilder<CounterBloc, CounterState>(
-              builder: (context, state) {
-                return ListTile(
-                  onTap: () => Navigator.of(context).pushReplacementNamed(CounterScreen.routeName),
-                  leading: const Icon(Icons.timer),
-                  title: const Text('Counter'),
-                  trailing: Text(state.counterValue.toString()),
-                );
-              },
-            ),
-            const Divider(),
-            BlocBuilder<TasksBloc, TasksState>(
-              builder: (context, state) {
-                return ListTile(
-                  onTap: () => Navigator.of(context).pushReplacementNamed(TasksScreen.routeName),
-                  leading: const Icon(Icons.folder_special),
-                  title: const Text('My Tasks'),
-                  trailing: Text(state.allTasks.length.toString()),
-                );
-              },
-            ),
-            const Divider(),
-            BlocBuilder<TasksBloc, TasksState>(
-              builder: (context, state) {
-                return ListTile(
-                  onTap: () => Navigator.of(context).pushReplacementNamed(RecycleBinScreen.routeName),
-                  leading: const Icon(Icons.delete),
-                  title: const Text('Bin'),
-                  trailing: Text(state.removedTasks.length.toString()),
-                );
-              },
-            ),
-            const Divider(),
-            BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
-              builder: (context, state) {
-                return ListTile(
-                  title: Text('Material ${state.useMaterialThree ? '3' : '2'} '),
-                  trailing: Switch(
-                    value: state.useMaterialThree,
-                    onChanged: (newValue) {
-                      context.read<UseMaterialThreeBloc>().add(newValue ? UseMaterialThreeTrueEvent() : UseMaterialThreeFalseEvent());
-                      Phoenix.rebirth(context);
+            Expanded(
+              child: Column(
+                children: [
+                  BlocBuilder<CounterBloc, CounterState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        onTap: () => Navigator.of(context).pushReplacementNamed(CounterScreen.routeName),
+                        leading: const Icon(Icons.timer),
+                        title: const Text('Counter'),
+                        trailing: Text(state.counterValue.toString()),
+                      );
                     },
                   ),
-                );
-              },
-            ),
-            BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
-              builder: (context, state) {
-                return ListTile(
-                  title: Text('Switch to ${state.useDarkTheme ? 'Light' : 'Dark'} Theme'),
-                  trailing: Switch(
-                    value: state.useDarkTheme,
-                    onChanged: (newValue) => context.read<UseDarkThemeBloc>().add(newValue ? UseDarkThemeOnEvent() : UseDarkThemeOffEvent()),
+                  const Divider(),
+                  BlocBuilder<TasksBloc, TasksState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        onTap: () => Navigator.of(context).pushReplacementNamed(TasksScreen.routeName),
+                        leading: const Icon(Icons.folder_special),
+                        title: const Text('My Tasks'),
+                        trailing: Text(state.allTasks.length.toString()),
+                      );
+                    },
                   ),
-                );
-              },
+                  const Divider(),
+                  BlocBuilder<TasksBloc, TasksState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        onTap: () => Navigator.of(context).pushReplacementNamed(RecycleBinScreen.routeName),
+                        leading: const Icon(Icons.delete),
+                        title: const Text('Bin'),
+                        trailing: Text(state.removedTasks.length.toString()),
+                      );
+                    },
+                  ),
+                  const Divider(),
+                  BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        title: Text('Material ${state.useMaterialThree ? '3' : '2'} '),
+                        trailing: Switch(
+                          value: state.useMaterialThree,
+                          onChanged: (_) {
+                            context.read<UseMaterialThreeBloc>().add(UseMaterialThreeToggleEvent());
+                            Phoenix.rebirth(context);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
+                    builder: (context, state) {
+                      return ListTile(
+                        title: Text('Switch to ${state.useDarkTheme ? 'Light' : 'Dark'} Theme'),
+                        trailing: Switch(
+                          value: state.useDarkTheme,
+                          onChanged: (_) => context.read<UseDarkThemeBloc>().add(UseDarkThemeToggleEvent()),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
+            ListTile(
+              onTap: () => context.read<AppBloc>().add(const AppEventLogOut()),
+              title: const Text('Log Out'),
+              leading: const Icon(Icons.logout),
+            ),
+            ListTile(
+              onTap: () => context.read<AppBloc>().add(const AppEventDeleteAccount()),
+              title: const Text('Delete Account'),
+              leading: const Icon(Icons.delete_forever),
+            )
           ],
         ),
       ),
