@@ -7,20 +7,14 @@ part 'use_material_three_state.dart';
 
 class UseMaterialThreeBloc extends HydratedBloc<UseMaterialThreeEvent, UseMaterialThreeState> {
   UseMaterialThreeBloc() : super(const UseMaterialThreeInitial()) {
-    // on<UseMaterialThreeEvent>(
-    //   (event, emit) {
-    //     if (event is UseMaterialThreeTrueEvent) {
-    //       emit(const UseMaterialThreeState(useMaterialThree: true));
-    //     } else if (event is UseMaterialThreeFalseEvent) {
-    //       emit(const UseMaterialThreeState(useMaterialThree: false));
-    //     }
-    //   },
-    // );
     on<UseMaterialThreeTrueEvent>((event, emit) {
       emit(const UseMaterialThreeState(useMaterialThree: true));
     });
     on<UseMaterialThreeFalseEvent>((event, emit) {
       emit(const UseMaterialThreeState(useMaterialThree: false));
+    });
+    on<UseMaterialThreeToggleEvent>((event, emit) {
+      emit(UseMaterialThreeState(useMaterialThree: !state.useMaterialThree));
     });
   }
 

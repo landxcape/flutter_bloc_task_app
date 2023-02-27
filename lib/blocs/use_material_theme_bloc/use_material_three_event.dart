@@ -10,3 +10,5 @@ abstract class UseMaterialThreeEvent extends Equatable {
 class UseMaterialThreeTrueEvent extends UseMaterialThreeEvent {}
 
 class UseMaterialThreeFalseEvent extends UseMaterialThreeEvent {}
+
+class UseMaterialThreeToggleEvent extends UseMaterialThreeEvent {}
