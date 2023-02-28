@@ -22,57 +22,60 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AppBloc>(create: (context) => AppBloc()..add(const AppEventInitialize())),
-        BlocProvider<CounterBloc>(create: (context) => CounterBloc()),
+        BlocProvider<AppBloc>(create: (_) => AppBloc()..add(const AppEventInitialize())),
+        BlocProvider<ThemeColorSchemeBloc>(create: (_) => ThemeColorSchemeBloc()),
+        BlocProvider<CounterBloc>(create: (_) => CounterBloc()),
         // to use without context
-        BlocProvider<TasksBloc>(create: (context) => tasksBloc),
-        BlocProvider<UseDarkThemeBloc>(create: (context) => UseDarkThemeBloc()),
-        BlocProvider<UseMaterialThreeBloc>(create: (context) => UseMaterialThreeBloc()),
+        BlocProvider<TasksBloc>(create: (_) => tasksBloc),
+        BlocProvider<UseDarkThemeBloc>(create: (_) => UseDarkThemeBloc()),
+        BlocProvider<UseMaterialThreeBloc>(create: (_) => UseMaterialThreeBloc()),
       ],
-      child: 
-      BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
+      child: BlocBuilder<UseMaterialThreeBloc, UseMaterialThreeState>(
         builder: (context, useMaterialThreeState) {
-          return BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
-            builder: (context, useDarkThemeState) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Tasks App',
-                theme: ThemeData(
-                  useMaterial3: useMaterialThreeState.useMaterialThree,
-                  brightness: useDarkThemeState.useDarkTheme ? Brightness.dark : Brightness.light,
-                  colorSchemeSeed: useMaterialThreeState.useMaterialThree ? Colors.lightBlue : null,
-                  primaryColor: useMaterialThreeState.useMaterialThree ? null : Colors.lightBlue,
-                ),
-                onGenerateRoute: _appRouter.onGenerateRoute,
-                home: BlocConsumer<AppBloc, AppState>(
-                  listener: (context, appState) {
-                    if (appState.isLoading) {
-                      LoadingWidget.instance().show(
-                        context: context,
-                        text: 'Loading...',
-                      );
-                    } else {
-                      LoadingWidget.instance().hide();
-                    }
-                    final authError = appState.authError;
-                    if (authError != null) {
-                      CustomDialog.showAuthError(
-                        context: context,
-                        authError: authError,
-                      );
-                    }
-                  },
-                  builder: (context, appState) {
-                    switch (appState.runtimeType) {
-                      case AppStateLoggedIn:
-                        return const CounterScreen();
-                      case AppStateLoggedOut:
-                      case AppStateIsInRegistrationView:
-                      default:
-                        return const LoginScreen();
-                    }
-                  },
-                ),
+          return BlocBuilder<ThemeColorSchemeBloc, ThemeColorSchemeState>(
+            builder: (context, themeColorSchemeState) {
+              return BlocBuilder<UseDarkThemeBloc, UseDarkThemeState>(
+                builder: (context, useDarkThemeState) {
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    title: 'Flutter Tasks App',
+                    theme: ThemeData(
+                      useMaterial3: useMaterialThreeState.useMaterialThree,
+                      brightness: useDarkThemeState.useDarkTheme ? Brightness.dark : Brightness.light,
+                      colorSchemeSeed: themeColorSchemeState.colorScheme.scheme,
+                    ),
+                    onGenerateRoute: _appRouter.onGenerateRoute,
+                    home: BlocConsumer<AppBloc, AppState>(
+                      listener: (context, appState) {
+                        if (appState.isLoading) {
+                          LoadingWidget.instance().show(
+                            context: context,
+                            text: 'Loading...',
+                          );
+                        } else {
+                          LoadingWidget.instance().hide();
+                        }
+                        final authError = appState.authError;
+                        if (authError != null) {
+                          CustomDialog.showAuthError(
+                            context: context,
+                            authError: authError,
+                          );
+                        }
+                      },
+                      builder: (context, appState) {
+                        switch (appState.runtimeType) {
+                          case AppStateLoggedIn:
+                            return const CounterScreen();
+                          case AppStateLoggedOut:
+                          case AppStateIsInRegistrationView:
+                          default:
+                            return const LoginScreen();
+                        }
+                      },
+                    ),
+                  );
+                },
               );
             },
           );
